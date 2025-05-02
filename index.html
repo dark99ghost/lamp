@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>التحكم في لمبة LED</title>
+  <title>LED Control</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,7 +13,6 @@
       height: 100vh;
       margin: 0;
       background-color: #f0f0f0;
-      direction: rtl;
     }
     .container {
       text-align: center;
@@ -48,31 +47,31 @@
 </head>
 <body>
   <div class="container">
-    <h1>التحكم في اللمبة</h1>
-    <button id="toggleButton" onclick="toggleLED()">تشغيل</button>
+    <h1>LED Control</h1>
+    <button id="toggleButton" onclick="toggleLED()">Turn ON</button>
   </div>
 
   <script>
     let isLEDOn = false;
     const button = document.getElementById('toggleButton');
-    // استبدل هذا بعنوان IP الخاص بـ ESP8266 بعد الاتصال بالشبكة
-    const espIP = '192.168.1.2'; // غيّر هذا إلى عنوان IP الفعلي
+    // Replace with your Ngrok HTTPS URL (without https://)
+    const espIP = 'abcd-1234.ngrok-free.app'; // Replace with your Ngrok URL
 
     async function toggleLED() {
       isLEDOn = !isLEDOn;
-      button.textContent = isLEDOn ? 'إيقاف' : 'تشغيل';
+      button.textContent = isLEDOn ? 'Turn OFF' : 'Turn ON';
       button.classList.toggle('off', isLEDOn);
 
       try {
-        const response = await fetch(`http://${espIP}/led?state=${isLEDOn ? 'on' : 'off'}`, {
+        const response = await fetch(`https://${espIP}/led?state=${isLEDOn ? 'on' : 'off'}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });
         if (!response.ok) {
-          console.error('فشل الاتصال بـ ESP8266');
+          console.error('Failed to connect to ESP8266');
         }
       } catch (error) {
-        console.error('خطأ:', error);
+        console.error('Error:', error);
       }
     }
   </script>
