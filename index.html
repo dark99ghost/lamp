@@ -65,11 +65,15 @@
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });
-        if (!response.ok) {
-          console.error('Failed to connect to ESP8266');
+        const data = await response.json();
+        console.log('Proxy response:', data); // Log the response
+        if (!response.ok || !data.success) {
+          console.error('Failed to connect to ESP8266:', data.error || 'Unknown error');
+        } else {
+          console.log('Success:', data.message);
         }
       } catch (error) {
-        console.error('Error:', error);
+        console.error('Fetch error:', error.message);
       }
     }
   </script>
